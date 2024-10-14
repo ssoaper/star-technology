@@ -204,6 +204,11 @@ StartupEvents.registry('item', event => {
         event.create(`${tier}_energy_core`)
             .displayName(`${tier.charAt(0).toUpperCase() + tier.slice(1)} Energy Core`).texture(`kubejs:item/${tier}_energy_core`);
     })
+
+    // Universal Circuits
+    global.tiers.forEach(tier => {
+        event.create(`${tier}_universal_circuit`)
+    })
 });
 
 // Custom Blocks
