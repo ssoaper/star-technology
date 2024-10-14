@@ -208,6 +208,8 @@ StartupEvents.registry('item', event => {
     // Universal Circuits
     global.tiers.forEach(tier => {
         event.create(`${tier}_universal_circuit`)
+            .texture(`kubejs:item/universal_circuits/${tier}_universal_circuit`)
+            .displayName(`${tier.toUpperCase()} Universal Circuit`)
     })
 });
 
