@@ -1,6 +1,6 @@
 ServerEvents.recipes(event => {
     global.tiers.forEach(tier => {
-        event.shapeless(`kubejs:${tier}_universal_circuit`)
+        event.shapeless(`kubejs:${tier}_universal_circuit`, `#gtceu:circuits/${tier}`)
     })
 
     // Fixing the conflict between universal and programmable circuit recipes
