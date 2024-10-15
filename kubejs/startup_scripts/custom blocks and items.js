@@ -210,6 +210,7 @@ StartupEvents.registry('item', event => {
         event.create(`${tier}_universal_circuit`)
             .texture(`kubejs:item/universal_circuits/${tier}_universal_circuit`)
             .displayName(`${tier.toUpperCase()} Universal Circuit`)
+            .tooltip('§o§7For use with AE2 autocrafting')
     })
 });
 
