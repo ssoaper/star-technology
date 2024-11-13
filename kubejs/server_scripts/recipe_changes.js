@@ -1,4 +1,4 @@
-const $RockBreakerCondition = Java.loadClass('com.gregtechceu.gtceu.common.recipe.RockBreakerCondition')  
+// const $RockBreakerCondition = Java.loadClass('com.gregtechceu.gtceu.common.recipe.RockBreakerCondition')  
 
 ServerEvents.recipes(event => {
 
@@ -25,9 +25,16 @@ ServerEvents.recipes(event => {
         'gtceu:wrought_iron_screw'
     );
 
+    event.replaceInput({ id: 'gtceu:macerator/macerate_nether_star_lens' },
+        '#forge:lenses/white',
+        'gtceu:nether_star_lens'
+    );
+
     event.recipes.create.mixing('3x gtceu:bronze_ingot', ['3x minecraft:copper_ingot', '#forge:ingots/tin']).heatRequirement('lowheated');
     event.recipes.create.mixing('1x gtceu:red_alloy_ingot', ['minecraft:copper_ingot', '4x minecraft:redstone']).heatRequirement('lowheated');
     event.recipes.create.mixing('3x gtceu:brass_ingot', ['3x minecraft:copper_ingot', '#forge:ingots/zinc']).heatRequirement('lowheated');
+    event.recipes.create.mixing('2x gtceu:invar_ingot', ['2x minecraft:iron_ingot', '#forge:ingots/nickel']).heatRequirement('lowheated');
+    event.recipes.create.mixing('1x gtceu:soul_infused_ingot', ['2x thermal_extra:soul_sand_dust', '#forge:ingots/invar']).heatRequirement('lowheated');
 
     event.shaped(Item.of('gtceu:wood_plate'), [
         'SSS'
@@ -72,6 +79,24 @@ ServerEvents.recipes(event => {
         .outputFluids('gtceu:rubber 576')
         .duration(240)
         .EUt(8);
+    //Recipe conflict fix
+    //ethane+chlorine
+    event.remove({id: 'gtceu:chemical_reactor/vinyl_chloride_from_ethane'})
+    event.recipes.gtceu.chemical_reactor('vinyl_chloride_from_ethane')
+        .inputFluids('gtceu:chlorine 4000', 'gtceu:ethane 1000')
+        .outputFluids('gtceu:vinyl_chloride 1000','gtceu:hydrochloric_acid 3000')
+        .duration(160)
+        .EUt(30)
+        .circuit(1);
+    
+    event.remove({id: 'gtceu:chemical_reactor/dichloroethane'})
+    event.recipes.gtceu.chemical_reactor('dichloroethane')
+        .inputFluids('gtceu:ethane 1000', 'gtceu:chlorine 2000')
+        .outputFluids('gtceu:dichloroethane 1000','gtceu:hydrochloric_acid 2000')
+        .duration(200)
+        .EUt(120)
+        .circuit(0);
+    //remove the code above when GT fixes it
 
     event.recipes.gtceu.large_chemical_reactor('latex_rubber')
         .itemInputs('3x thermal:rubber', 'gtceu:sulfur_dust')
@@ -200,9 +225,9 @@ ServerEvents.recipes(event => {
         .itemOutputs('minecraft:blackstone')
         .duration(16)
         .EUt(7)
-        ["addData(java.lang.String,java.lang.String)"]("fluidA", "minecraft:lava")
-        ["addData(java.lang.String,java.lang.String)"]("fluidB", "minecraft:water")
-        .addCondition($RockBreakerCondition.INSTANCE);
+        .addDataString("fluidA", "minecraft:lava")
+        .addDataString("fluidB", "minecraft:water");
+        // .addCondition($RockBreakerCondition.INSTANCE);
 
     event.shaped(Item.of('create_new_age:carbon_brushes'), [
         'SCS',
@@ -298,7 +323,7 @@ ServerEvents.recipes(event => {
         .itemOutputs('10x gtceu:birmabright_dust')
         .duration(350)
         .EUt(GTValues.VHA[GTValues.HV])
-        .circuit(1);
+        .circuit(3);
 
     event.recipes.gtceu.mixer('duralumin')
         .itemInputs('4x gtceu:aluminium_dust', '3x gtceu:copper_dust', '1x gtceu:magnesium_dust', '1x gtceu:manganese_dust')
@@ -360,7 +385,7 @@ ServerEvents.recipes(event => {
         .itemOutputs('27x gtceu:tumbaga_dust')
         .duration(470)
         .EUt(GTValues.VHA[GTValues.HV])
-        .circuit(3);
+        .circuit(4);
 
     event.recipes.gtceu.assembler('multiblock_upgrade_kit')
         .itemInputs('thermal:lumium_glass', '#gtceu:circuits/ev', '2x gtceu:double_signalum_plate', '12x gtceu:cobalt_foil')
@@ -382,4 +407,32 @@ ServerEvents.recipes(event => {
     event.recipes.create.item_application('gtceu:t_large_macerator', ['gtceu:hv_macerator', 'kubejs:multiblock_upgrade_kit']);
     event.recipes.create.item_application('gtceu:large_rock_crusher', ['gtceu:hv_rock_crusher', 'kubejs:multiblock_upgrade_kit']);
 
+
+    event.remove({id: 'exdeorum:barrel_fluid_mixing/stone'});
+    event.custom({
+        "type": "exdeorum:barrel_fluid_mixing",
+        "additive_fluid": "minecraft:lava",
+        "base_fluid": "minecraft:water",
+        "base_fluid_amount": 1000,
+        "consumes_additive": false,
+        "result": "minecraft:cobblestone"
+    });
+
 });
+
+BlockEvents.rightClicked('minecraft:grass_block', event => {
+    if (event.player.isCrouching() && event.player.getMainHandItem() == null) {
+        if (Math.random() < 0.75) {
+            event.block.popItemFromFace(Item.of('exdeorum:stone_pebble'), 'up');
+        }
+        if (Math.random() < 0.5) {
+            event.block.popItemFromFace(Item.of('exdeorum:andesite_pebble'), 'up');
+        }
+        if (Math.random() < 0.5) {
+            event.block.popItemFromFace(Item.of('exdeorum:granite_pebble'), 'up');
+        }
+        if (Math.random() < 0.5) {
+            event.block.popItemFromFace(Item.of('exdeorum:diorite_pebble'), 'up');
+        }
+    }
+})
