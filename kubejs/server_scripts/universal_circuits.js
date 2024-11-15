@@ -1,5 +1,19 @@
+const tiers = [
+    'mv',
+    'hv',
+    'ev',
+    'iv',
+    'luv',
+    'zpm',
+    'uv',
+    'uhv'
+]
+
 ServerEvents.recipes(event => {
-    global.tiers.forEach(tier => {
+    event.shapeless("kubejs:lv_universal_circuit", "gtceu:basic_electronic_circuit")
+    event.shapeless("kubejs:lv_universal_circuit", "gtceu:basic_integrated_circuit")
+    event.shapeless("kubejs:lv_universal_circuit", "gtceu:microchip_processor")
+    tiers.forEach(tier => {
         event.shapeless(`kubejs:${tier}_universal_circuit`, `#gtceu:circuits/${tier}`)
     })
 
@@ -11,7 +25,8 @@ ServerEvents.recipes(event => {
     )
 })
 ServerEvents.tags('item', event => {
-    global.tiers.forEach(tier => {
+    tiers.forEach(tier => {
         event.add(`gtceu:circuits/${tier}`, `kubejs:${tier}_universal_circuit`)
     })
+    event.add(`gtceu:circuits/lv`, `kubejs:lv_universal_circuit`)
 })
