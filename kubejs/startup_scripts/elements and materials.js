@@ -214,7 +214,7 @@ function periodicTableElement(material, type) {
 
 function blastProperty(material, temperature, gasTier, voltage, duration) {
     let mat = GTMaterials.get(material);
-    mat.setProperty(PropertyKey.BLAST, new $BlastProperty(temperature, gasTier, voltage, duration));
+    mat.setProperty(PropertyKey.BLAST, new $BlastProperty(temperature, gasTier, voltage, duration, -1, -1));
 }
 
 /*
@@ -352,6 +352,7 @@ materialRegistry(event => {
     GTMaterials.Naquadah.addFlags(dense_plate);
     GTMaterials.NaquadahEnriched.addFlags(dense_plate);
     GTMaterials.Neutronium.addFlags(foil);
+    GTMaterials.Europium.addFlags(small_spring);
     GTMaterials.Zirconium.addFlags(fine_wire); 
     GTMaterials.RedSteel.addFlags(rod, frame);
     GTMaterials.SterlingSilver.addFlags(rod, frame);      
@@ -664,7 +665,7 @@ materialRegistry(event => {
         .components('7x naquadria', '2x pure_netherite', '5x neutronium', '16x fluorine')
         .color(0xccff33)
         .iconSet(DULL)
-        .blastTemp(10500, 'low', VA('uv'), 6000)
+        .blastTemp(10500, 'low', VA('zpm'), 6000)
         .flags(foil, gear, long_rod, plates,
             rod, rotor, small_gear, ring, frame);
 

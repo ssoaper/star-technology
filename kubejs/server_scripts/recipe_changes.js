@@ -30,12 +30,6 @@ ServerEvents.recipes(event => {
         'gtceu:nether_star_lens'
     );
 
-    event.recipes.create.mixing('3x gtceu:bronze_ingot', ['3x minecraft:copper_ingot', '#forge:ingots/tin']).heatRequirement('lowheated');
-    event.recipes.create.mixing('1x gtceu:red_alloy_ingot', ['minecraft:copper_ingot', '4x minecraft:redstone']).heatRequirement('lowheated');
-    event.recipes.create.mixing('3x gtceu:brass_ingot', ['3x minecraft:copper_ingot', '#forge:ingots/zinc']).heatRequirement('lowheated');
-    event.recipes.create.mixing('2x gtceu:invar_ingot', ['2x minecraft:iron_ingot', '#forge:ingots/nickel']).heatRequirement('lowheated');
-    event.recipes.create.mixing('1x gtceu:soul_infused_ingot', ['2x thermal_extra:soul_sand_dust', '#forge:ingots/invar']).heatRequirement('lowheated');
-
     event.shaped(Item.of('gtceu:wood_plate'), [
         'SSS'
     ], {
@@ -60,6 +54,7 @@ ServerEvents.recipes(event => {
     }).keepIngredient('gtceu:brick_wooden_form');
 
     event.recipes.create.mixing('4x thermal:cured_rubber', ['3x thermal:rubber', '#forge:dusts/sulfur']).heatRequirement('lowheated');
+
     event.recipes.create.pressing('gtceu:rubber_plate', 'thermal:cured_rubber');
 
     event.recipes.gtceu.fluid_solidifier('gtceu:raw_rubber')
@@ -79,6 +74,7 @@ ServerEvents.recipes(event => {
         .outputFluids('gtceu:rubber 576')
         .duration(240)
         .EUt(8);
+
     //Recipe conflict fix
     //ethane+chlorine
     event.remove({id: 'gtceu:chemical_reactor/vinyl_chloride_from_ethane'})
@@ -88,7 +84,8 @@ ServerEvents.recipes(event => {
         .duration(160)
         .EUt(30)
         .circuit(1);
-    
+
+    //remove the code above when GT fixes it
     event.remove({id: 'gtceu:chemical_reactor/dichloroethane'})
     event.recipes.gtceu.chemical_reactor('dichloroethane')
         .inputFluids('gtceu:ethane 1000', 'gtceu:chlorine 2000')
@@ -96,7 +93,6 @@ ServerEvents.recipes(event => {
         .duration(200)
         .EUt(120)
         .circuit(0);
-    //remove the code above when GT fixes it
 
     event.recipes.gtceu.large_chemical_reactor('latex_rubber')
         .itemInputs('3x thermal:rubber', 'gtceu:sulfur_dust')
@@ -277,11 +273,10 @@ ServerEvents.recipes(event => {
         R: 'gtceu:rubber_plate'
     });
 
-    event.recipes.create.pressing('gtceu:lead_plate', 'gtceu:lead_ingot');
-    event.recipes.create.pressing('gtceu:silver_plate', 'gtceu:silver_ingot');
-    event.recipes.create.pressing('gtceu:tin_plate', 'gtceu:tin_ingot');
-    event.recipes.create.pressing('gtceu:zinc_plate', 'gtceu:zinc_ingot');
-    event.recipes.create.pressing('gtceu:bronze_plate', 'gtceu:bronze_ingot');
+    //plates
+    ['lead','silver','tin','zinc','bronze','red_alloy','nickel','invar','soul_infused','cobalt_brass','wrought_iron'].forEach(type => {
+        event.recipes.create.pressing(`gtceu:${type}_plate`,`gtceu:${type}_ingot`);
+    });
   
     event.replaceInput({id: 'enderchests:ender_pouch'}, 'minecraft:leather', 'gtceu:carbon_fiber_plate');
     event.shaped(Item.of('create_new_age:netherite_magnet'), [
@@ -407,32 +402,25 @@ ServerEvents.recipes(event => {
     event.recipes.create.item_application('gtceu:t_large_macerator', ['gtceu:hv_macerator', 'kubejs:multiblock_upgrade_kit']);
     event.recipes.create.item_application('gtceu:large_rock_crusher', ['gtceu:hv_rock_crusher', 'kubejs:multiblock_upgrade_kit']);
 
-
-    event.remove({id: 'exdeorum:barrel_fluid_mixing/stone'});
-    event.custom({
-        "type": "exdeorum:barrel_fluid_mixing",
-        "additive_fluid": "minecraft:lava",
-        "base_fluid": "minecraft:water",
-        "base_fluid_amount": 1000,
-        "consumes_additive": false,
-        "result": "minecraft:cobblestone"
-    });
-
+    // Mycelium Leather
+    event.recipes.create.pressing('kubejs:compressed_mycelium', 'kubejs:mycelium_growth');
+    event.smoking('kubejs:smoked_mycelium', 'kubejs:compressed_mycelium');
+    event.recipes.create.pressing('minecraft:leather', 'kubejs:smoked_mycelium');
 });
 
 BlockEvents.rightClicked('minecraft:grass_block', event => {
     if (event.player.isCrouching() && event.player.getMainHandItem() == null) {
         if (Math.random() < 0.75) {
-            event.block.popItemFromFace(Item.of('exdeorum:stone_pebble'), 'up');
+            event.block.popItemFromFace(Item.of('exnihilosequentia:stone_pebble'), 'up');
         }
         if (Math.random() < 0.5) {
-            event.block.popItemFromFace(Item.of('exdeorum:andesite_pebble'), 'up');
+            event.block.popItemFromFace(Item.of('exnihilosequentia:andesite_pebble'), 'up');
         }
         if (Math.random() < 0.5) {
-            event.block.popItemFromFace(Item.of('exdeorum:granite_pebble'), 'up');
+            event.block.popItemFromFace(Item.of('exnihilosequentia:granite_pebble'), 'up');
         }
         if (Math.random() < 0.5) {
-            event.block.popItemFromFace(Item.of('exdeorum:diorite_pebble'), 'up');
+            event.block.popItemFromFace(Item.of('exnihilosequentia:diorite_pebble'), 'up');
         }
     }
 })
