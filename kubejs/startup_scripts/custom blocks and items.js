@@ -71,7 +71,7 @@ StartupEvents.registry('item', event => {
     ];
 
     UpgradeTiers.forEach(tier => {
-        let tier_capitalized = tier.toUpperCase
+        let tier_capitalized = tier.toUpperCase();
         event.create(`${tier}_upgrade_kit`)
             .displayName(`${tier_capitalized} Upgrade Kit`)
             .tooltip("§7Augment for dynamos, energy cells, fluid cells and other Thermal Series machines")
