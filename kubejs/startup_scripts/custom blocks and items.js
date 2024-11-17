@@ -71,18 +71,22 @@ StartupEvents.registry('item', event => {
     ];
 
     UpgradeTiers.forEach(tier => {
+        let tier_capitalized = tier.toUpperCase
         event.create(`${tier}_upgrade_kit`)
-            .displayName(`${tier.toUpperCase} Upgrade Kit`)
-            .tooltip("Augment for dynamos, energy cells, fluid cells and other Thermal Series machines")
-            .texture(`kubejs:item/kits/upgrade/${tier}`);
+            .displayName(`${tier_capitalized} Upgrade Kit`)
+            .tooltip("§7Augment for dynamos, energy cells, fluid cells and other Thermal Series machines")
+            .texture(`kubejs:item/kits/upgrade/${tier}`)
+            .tooltip(`§6${tier_capitalized}-Tier Kit`);
         event.create(`${tier}_arc_kit`)
-            .displayName(`${tier.toUpperCase} Auxilary Reaction Chamber Kit`)
-            .tooltip("Augment for dynamos")
-            .texture(`kubejs:item/kits/arc/${tier}`);
+            .displayName(`${tier_capitalized} Auxilary Reaction Chamber Kit`)
+            .tooltip("§7Augment for dynamos")
+            .texture(`kubejs:item/kits/arc/${tier}`)
+            .tooltip(`§6${tier_capitalized}-Tier Kit`);
         event.create(`${tier}_mci_kit`)
-            .displayName(`${tier.toUpperCase} Multi-Cycle Injectors Kit`)
-            .tooltip("Augment for dynamos")
-            .texture(`kubejs:item/kits/mci/${tier}`);
+            .displayName(`${tier_capitalized} Multi-Cycle Injectors Kit`)
+            .tooltip("§7Augment for dynamos")
+            .texture(`kubejs:item/kits/mci/${tier}`)
+            .tooltip(`§6${tier_capitalized}-Tier Kit`);
     });
 
     event.create('coin')
@@ -336,7 +340,7 @@ StartupEvents.registry('block', event => {
         .requiresTool(true)
         .tagBlock("mineable/pickaxe")
         .tagBlock('minecraft:needs_iron_tool')
-        .textureAll('kubejs:block/casings/beryllium-aluminium_casing');
+        .textureAll('kubejs:block/casings/beryllium_aluminium_alloy_casing');
 
     event.create('birmabright_casing')
         .displayName('Birmabright Casing')
@@ -356,7 +360,7 @@ StartupEvents.registry('block', event => {
         .requiresTool(true)
         .tagBlock("mineable/pickaxe")
         .tagBlock('minecraft:needs_iron_tool')
-        .textureAll('kubejs:block/casings/bizmuth_bronze_casing');
+        .textureAll('kubejs:block/casings/beryllium_bronze_casing');
 
     event.create('blue_steel_casing')
         .displayName('Blue Steel Casing')
