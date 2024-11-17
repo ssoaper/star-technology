@@ -76,17 +76,14 @@ StartupEvents.registry('item', event => {
             .displayName(`${tier_capitalized} Upgrade Kit`)
             .tooltip("§7Augment for dynamos, energy cells, fluid cells and other Thermal Series machines")
             .texture(`kubejs:item/kits/upgrade/${tier}`)
-            .tooltip(`§6${tier_capitalized}-Tier Kit`);
         event.create(`${tier}_arc_kit`)
             .displayName(`${tier_capitalized} Auxilary Reaction Chamber Kit`)
             .tooltip("§7Augment for dynamos")
             .texture(`kubejs:item/kits/arc/${tier}`)
-            .tooltip(`§6${tier_capitalized}-Tier Kit`);
         event.create(`${tier}_mci_kit`)
             .displayName(`${tier_capitalized} Multi-Cycle Injectors Kit`)
             .tooltip("§7Augment for dynamos")
             .texture(`kubejs:item/kits/mci/${tier}`)
-            .tooltip(`§6${tier_capitalized}-Tier Kit`);
     });
 
     event.create('coin')
