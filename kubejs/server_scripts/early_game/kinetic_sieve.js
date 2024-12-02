@@ -16,7 +16,6 @@ ServerEvents.recipes(event => {
     // Wood Casing & Mesh crafting recipe
 
     event.shaped(Item.of('2x kubejs:wood_casing'), [
-
         'SDS',
         'WFW',
         'SHS'
@@ -33,41 +32,77 @@ ServerEvents.recipes(event => {
         .itemOutputs('2x kubejs:wood_casing')
         .circuit(6)
         .duration(50)
-        .EUt(16)
+        .EUt(16);
 
-        event.shaped(Item.of('kubejs:meshblock'), [
-
-            'SMS',
-            'MMM',
-            'SMS'
-        ], {
-            M: 'exnihilosequentia:string_mesh',
-            S: 'gtceu:treated_wood_rod'
-        });
+    event.shaped(Item.of('kubejs:meshblock'), [
+        'SMS',
+        'MMM',
+        'SMS'
+    ], {
+        M: 'exnihilosequentia:string_mesh',
+        S: 'gtceu:treated_wood_rod'
+    });
     
-        event.recipes.gtceu.assembler('start:assembler_meshblock')
-            .itemInputs('5x exnihilosequentia:string_mesh', '4x gtceu:treated_wood_rod')
-            .itemOutputs('kubejs:meshblock')
-            .circuit(6)
-            .duration(50)
-            .EUt(16)
+    event.recipes.gtceu.assembler('start:assembler_meshblock')
+        .itemInputs('5x exnihilosequentia:string_mesh', '4x gtceu:treated_wood_rod')
+        .itemOutputs('kubejs:meshblock')
+        .circuit(6)
+        .duration(50)
+        .EUt(16);
 
-    function kineticsieve(mesh, input, outputs) {
+	const sieveResults = {
+		string: {
+			gravel: [
+				"64x gtceu:crushed_copper_ore",
+				"64x gtceu:crushed_iron_ore",
+				"64x gtceu:crushed_tin_ore",
+				"64x gtceu:crushed_sphalerite_ore",
+				"64x gtceu:crushed_magnetite_ore",
+			],
+			sand: [
+				"64x minecraft:quartz",
+				"64x minecraft:diamond",
+				"64x minecraft:lapis_lazuli",
+				"64x minecraft:amethyst_shard",
+				"64x minecraft:emerald",
+			],
+			dust: [
+				"64x minecraft:redstone",
+				"16x minecraft:ender_pearl",
+				"64x minecraft:glowstone_dust",
+				"16x gtceu:sulfur_dust ",
+			],
+			blackstone: [
+				"64x gtceu:crushed_galena_ore",
+				"64x gtceu:crushed_stibnite_ore",
+			],
+		},
+	};
 
-        event.recipes.gtceu.kinetic_sieve(`${mesh}_${input.path}_kinetic_sieve`)
-            .itemInputs(`${input}`)
-            .notConsumable(`exnihilosequentia:${mesh}_mesh`)
-            .itemOutputs(outputs)
-            .duration(1800)
-            .inputStress(256)
-            .rpm(128)
+	function finalInput(input) {
+		switch (input) {
+			case "dust":
+				return "96x exnihilosequentia:dust";
+			case "gravel":
+				return "128x minecraft:gravel";
+			case "sand":
+				return "128x minecraft:sand";
+			case "blackstone":
+				return "64x exnihilosequentia:crushed_blackstone";
+		}
+	}
 
-    }
+	Object.keys(sieveResults).forEach((mesh) => {
+		Object.keys(sieveResults[mesh]).forEach((input) => {
 
-    kineticsieve("string", "256x minecraft:gravel", ['64x gtceu:crushed_copper_ore', '64x gtceu:crushed_iron_ore', '64x gtceu:crushed_tin_ore', '64x gtceu:crushed_sphalerite_ore', '64x gtceu:crushed_magnetite_ore']);
-    kineticsieve("string", "256x #forge:sand", ['64x minecraft:quartz', '64x minecraft:diamond', '64x minecraft:lapis_lazuli', '64x minecraft:amethyst_shard', '64x minecraft:emerald']);
-    kineticsieve("string", "192x exnihilosequentia:dust", ['64x minecraft:redstone', '16x minecraft:ender_pearl', '64x minecraft:glowstone_dust', '16x gtceu:sulfur_dust ']);
-    kineticsieve("string", "64x exnihilosequentia:crushed_blackstone", ['64x gtceu:crushed_galena_ore', '64x gtceu:crushed_stibnite_ore']);
+            event.recipes.gtceu.kinetic_sieve(`${mesh}_${input}`)
+                .itemInputs(finalInput(input))
+                .notConsumable(`exnihilosequentia:${mesh}_mesh`)
+                .itemOutputs(sieveResults[mesh][input])
+                .duration(500)
+                .rpm(128)
+                .inputStress(256);
 
-
+		});
+	});
 });
